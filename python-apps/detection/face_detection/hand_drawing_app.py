@@ -113,9 +113,9 @@ while True:
     # Setting the header image
     img[0:125, 0:1280] = header
     # img = cv2.addWeighted(img,0.5,imgCanvas,0.5,0)
-    # Afficher la fenêtre principale en plein écran
+    # Afficher la fenêtre principale en fenêtre maximisée
     cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-    cv2.setWindowProperty("Image", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    cv2.resizeWindow("Image", 1200, 800)
     cv2.imshow("Image", img)
     
     # Afficher les autres fenêtres normalement (optionnel)

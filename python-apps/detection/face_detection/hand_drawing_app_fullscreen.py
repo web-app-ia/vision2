@@ -34,9 +34,9 @@ detector = htm.handDetector(detectionCon=0.65,maxHands=1)
 xp, yp = 0, 0
 imgCanvas = np.zeros((720, 1280, 3), np.uint8)
 
-# Créer la fenêtre en plein écran
+# Créer la fenêtre en fenêtre maximisée
 cv2.namedWindow("Hand Drawing - Plein Écran", cv2.WINDOW_NORMAL)
-cv2.setWindowProperty("Hand Drawing - Plein Écran", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+cv2.resizeWindow("Hand Drawing - Plein Écran", 1200, 800)
 
 while True:
 
@@ -116,11 +116,11 @@ while True:
     # Setting the header image
     img[0:125, 0:1280] = header
     
-    # Afficher en plein écran
+    # Afficher en fenêtre maximisée
     cv2.imshow("Hand Drawing - Plein Écran", img)
     
     # Instructions à l'écran
-    cv2.putText(img, "Appuyez sur 'q' pour quitter ou 'ESC' pour sortir du plein ecran", 
+    cv2.putText(img, "Appuyez sur 'q' pour quitter ou 'ESC' pour redimensionner la fenêtre", 
                 (10, img.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
     
     # Contrôles clavier
@@ -128,8 +128,8 @@ while True:
     if key == ord('q'):
         break
     elif key == 27:  # ESC key
-        # Sortir du plein écran
-        cv2.setWindowProperty("Hand Drawing - Plein Écran", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+        # Sortir du fenêtre maximisée
+        cv2.resizeWindow("Hand Drawing - Plein Écran", 1200, 800)
 
 # Release camera and close windows
 cap.release()

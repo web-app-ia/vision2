@@ -37,9 +37,9 @@ detector = htm.handDetector(detectionCon=0.65, maxHands=1)
 xp, yp = 0, 0
 imgCanvas = np.zeros((720, 1280, 3), np.uint8)
 
-# Créer la fenêtre en plein écran
+# Créer la fenêtre en fenêtre maximisée
 cv2.namedWindow("Hand Drawing - Final", cv2.WINDOW_NORMAL)
-cv2.setWindowProperty("Hand Drawing - Final", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+cv2.resizeWindow("Hand Drawing - Final", 1200, 800)
 
 # Variables pour le contrôle d'épaisseur
 thickness_change_time = 0
@@ -177,7 +177,7 @@ while True:
     cv2.putText(img, "q: Quitter | ESC: Fenetre normale", 
                (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
     
-    # Afficher en plein écran
+    # Afficher en fenêtre maximisée
     cv2.imshow("Hand Drawing - Final", img)
     
     # Contrôles clavier
@@ -185,8 +185,8 @@ while True:
     if key == ord('q'):
         break
     elif key == 27:  # ESC key
-        # Sortir du plein écran
-        cv2.setWindowProperty("Hand Drawing - Final", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+        # Sortir du fenêtre maximisée
+        cv2.resizeWindow("Hand Drawing - Final", 1200, 800)
     elif key == ord('c'):  # Touche 'c' pour effacer tout
         imgCanvas = np.zeros((720, 1280, 3), np.uint8)
         print("Canvas cleared manually!")

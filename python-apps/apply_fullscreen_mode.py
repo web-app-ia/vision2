@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script pour appliquer le mode plein écran à toutes les applications Python OpenCV
+Script pour appliquer le mode fenêtre maximisée à toutes les applications Python OpenCV
 """
 
 import os
@@ -10,7 +10,7 @@ from pathlib import Path
 
 def add_fullscreen_support_to_file(file_path):
     """
-    Ajoute le support du mode plein écran à un fichier Python utilisant OpenCV
+    Ajoute le support du mode fenêtre maximisée à un fichier Python utilisant OpenCV
     """
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -21,9 +21,9 @@ def add_fullscreen_support_to_file(file_path):
             print(f"Aucun cv2.imshow trouvé dans {file_path}")
             return False
         
-        # Vérifier si le support plein écran est déjà présent
-        if 'cv2.WINDOW_FULLSCREEN' in content:
-            print(f"Support plein écran déjà présent dans {file_path}")
+        # Vérifier si le support fenêtre maximisée est déjà présent
+        if 'cv2.WINDOW_NORMAL' in content:
+            print(f"Support fenêtre maximisée déjà présent dans {file_path}")
             return False
         
         # Rechercher la première occurrence de cv2.imshow
@@ -36,25 +36,25 @@ def add_fullscreen_support_to_file(file_path):
             
         window_name = match.group(1)
         
-        # Ajouter le code pour le mode plein écran après les imports
+        # Ajouter le code pour le mode fenêtre maximisée après les imports
         import_pattern = r'(import cv2.*?\n)'
         fullscreen_code = f'''
-# Configuration pour le mode plein écran
-def setup_fullscreen_window(window_name):
-    """Configure une fenêtre pour le mode plein écran"""
+# Configuration pour le mode fenêtre maximisée
+def setup_maximized_window(window_name):
+    """Configure une fenêtre pour occuper une grande partie de l'écran"""
     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    cv2.resizeWindow(window_name, 1200, 800)
     return True
 
-def toggle_fullscreen(window_name, is_fullscreen):
-    """Bascule entre mode plein écran et fenêtre normale"""
-    if is_fullscreen:
-        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+def toggle_window_mode(window_name, is_maximized):
+    """Bascule entre mode maximisé et fenêtre normale"""
+    if is_maximized:
+        cv2.resizeWindow(window_name, 800, 600)
         print("Mode fenêtre normale activé")
         return False
     else:
-        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-        print("Mode plein écran activé")
+        cv2.resizeWindow(window_name, 1200, 800)
+        print("Mode fenêtre maximisée activé")
         return True
 
 '''
@@ -64,11 +64,11 @@ def toggle_fullscreen(window_name, is_fullscreen):
             # Ajouter avant la boucle principale
             before_loop_pattern = r'(\s*)(while.*?:)'
             setup_code = f'''
-        # Configuration de la fenêtre plein écran
+        # Configuration de la fenêtre maximisée
         window_name = "{window_name}"
-        setup_fullscreen_window(window_name)
-        fullscreen_mode = True
-        print("Mode plein écran activé - Appuyez sur 'f' pour basculer")
+        setup_maximized_window(window_name)
+        maximized_mode = True
+        print("Mode fenêtre maximisée activé - Appuyez sur 'f' pour basculer")
         
         '''
             
@@ -82,14 +82,14 @@ def toggle_fullscreen(window_name, is_fullscreen):
             
             # Ajouter la gestion des touches 'f' dans la boucle
             key_pattern = r'(key = cv2\.waitKey\(.*?\).*?\n)(.*?)(if key.*?:)'
-            key_replacement = r'\1\2elif key == ord(\'f\'):\n                    fullscreen_mode = toggle_fullscreen(window_name, fullscreen_mode)\n                \3'
+            key_replacement = r'\1\2elif key == ord(\'f\'):\n                    maximized_mode = toggle_window_mode(window_name, maximized_mode)\n                \3'
             content = re.sub(key_pattern, key_replacement, content, flags=re.DOTALL)
             
             # Sauvegarder le fichier modifié
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(content)
             
-            print(f"Mode plein écran ajouté à {file_path}")
+            print(f"Mode fenêtre maximisée ajouté à {file_path}")
             return True
         else:
             print(f"Impossible de trouver la boucle principale dans {file_path}")
@@ -123,8 +123,8 @@ def process_directory(directory_path):
     return processed_count, error_count
 
 def main():
-    print("=== Script d'application du mode plein écran ===")
-    print("Ce script ajoute le support du mode plein écran à toutes les applications Python OpenCV")
+    print("=== Script d'application du mode fenêtre maximisée ===")
+    print("Ce script ajoute le support du mode fenêtre maximisée à toutes les applications Python OpenCV")
     
     # Obtenir le répertoire des applications Python
     script_dir = Path(__file__).parent
@@ -146,8 +146,8 @@ def main():
     
     if processed > 0:
         print(f"\nLes applications modifiées supportent maintenant:")
-        print("- Mode plein écran par défaut au démarrage")
-        print("- Touche 'f' pour basculer entre plein écran et fenêtre normale")
+        print("- Mode fenêtre maximisée par défaut au démarrage")
+        print("- Touche 'f' pour basculer entre fenêtre maximisée et fenêtre normale")
         print("- Affichage des messages de confirmation")
 
 if __name__ == "__main__":

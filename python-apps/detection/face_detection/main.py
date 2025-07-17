@@ -207,14 +207,14 @@ class FaceDetectionApp:
         print("  - 'r' pour réinitialiser les compteurs")
         print("  - '+' pour augmenter la sensibilité")
         print("  - '-' pour diminuer la sensibilité")
-        print("  - 'f' pour basculer en mode plein écran")
+        print("  - 'f' pour basculer en mode fenêtre maximisée")
         
-        # Créer la fenêtre et la configurer pour le plein écran
+        # Créer la fenêtre et la configurer pour le fenêtre maximisée
         window_name = 'Detection de Visage - Computer Vision App'
         cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        cv2.resizeWindow(window_name, 1200, 800)
         
-        fullscreen_mode = True
+        maximized_mode = True
         
         try:
             while True:
@@ -273,13 +273,13 @@ class FaceDetectionApp:
                     self.min_neighbors = min(10, self.min_neighbors + 1)
                     print(f"Sensibilité diminuée (min_neighbors: {self.min_neighbors})")
                 elif key == ord('f'):
-                    # Basculer le mode plein écran
-                    fullscreen_mode = not fullscreen_mode
-                    if fullscreen_mode:
-                        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-                        print("Mode plein écran activé")
+                    # Basculer le mode fenêtre maximisée
+                    maximized_mode = not maximized_mode
+                    if maximized_mode:
+                        cv2.resizeWindow(window_name, 1200, 800)
+                        print("Mode fenêtre maximisée activé - Appuyez sur 'f' pour basculer")
                     else:
-                        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+                        cv2.resizeWindow(window_name, 1200, 800)
                         print("Mode fenêtre normal activé")
                 
         except KeyboardInterrupt:

@@ -1,21 +1,21 @@
 import cv2
 
-# Configuration pour le mode plein écran
-def setup_fullscreen_window(window_name):
-    """Configure une fenêtre pour le mode plein écran"""
+# Configuration pour le mode fenêtre maximisée
+def setup_maximized_window(window_name):
+    """Configure une fenêtre pour occuper une grande partie de l'écran"""
     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    cv2.resizeWindow(window_name, 1200, 800)
     return True
 
-def toggle_fullscreen(window_name, is_fullscreen):
-    """Bascule entre mode plein écran et fenêtre normale"""
-    if is_fullscreen:
-        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+def toggle_window_mode(window_name, is_maximized):
+    """Bascule entre mode maximisé et fenêtre normale"""
+    if is_maximized:
+        cv2.resizeWindow(window_name, 800, 600)
         print("Mode fenêtre normale activé")
         return False
     else:
-        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-        print("Mode plein écran activé")
+        cv2.resizeWindow(window_name, 1200, 800)
+        print("Mode fenêtre maximisée activé")
         return True
 
 import mediapipe as mp
@@ -83,11 +83,11 @@ class PoseEstimationApp:
         print("Appuyez sur 'q' pour quitter")
 
         try:
-        # Configuration de la fenêtre plein écran
+        # Configuration de la fenêtre maximisée
         window_name = "Suivi de Pose Corporelle - Computer Vision App"
-        setup_fullscreen_window(window_name)
-        fullscreen_mode = True
-        print("Mode plein écran activé - Appuyez sur 'f' pour basculer")
+        setup_maximized_window(window_name)
+        maximized_mode = True
+        print("Mode fenêtre maximisée activé - Appuyez sur 'f' pour basculer")
         
         
             while True:
@@ -120,7 +120,7 @@ class PoseEstimationApp:
                 key = cv2.waitKey(1) & 0xFF
 
                 elif key == ord(\'f\'):
-                    fullscreen_mode = toggle_fullscreen(window_name, fullscreen_mode)
+                    maximized_mode = toggle_window_mode(window_name, maximized_mode)
                 if key == ord('q'):  # 'q' pour quitter
                     print("Arrêt demandé par l'utilisateur")
                     break

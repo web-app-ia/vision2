@@ -34,9 +34,9 @@ detector = htm.handDetector(detectionCon=0.65, maxHands=1)
 xp, yp = 0, 0
 imgCanvas = np.zeros((720, 1280, 3), np.uint8)
 
-# Créer la fenêtre en plein écran
+# Créer la fenêtre en fenêtre maximisée
 cv2.namedWindow("Hand Drawing - Enhanced", cv2.WINDOW_NORMAL)
-cv2.setWindowProperty("Hand Drawing - Enhanced", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+cv2.resizeWindow("Hand Drawing - Enhanced", 1200, 800)
 
 while True:
     # 1. Import image
@@ -148,7 +148,7 @@ while True:
     cv2.putText(img, "q: Quitter | ESC: Fenetre normale | 2 doigts: Couleur | 1 doigt: Dessiner", 
                (10, img.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
     
-    # Afficher en plein écran
+    # Afficher en fenêtre maximisée
     cv2.imshow("Hand Drawing - Enhanced", img)
     
     # Contrôles clavier
@@ -156,8 +156,8 @@ while True:
     if key == ord('q'):
         break
     elif key == 27:  # ESC key
-        # Sortir du plein écran
-        cv2.setWindowProperty("Hand Drawing - Enhanced", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+        # Sortir du fenêtre maximisée
+        cv2.resizeWindow("Hand Drawing - Enhanced", 1200, 800)
 
 # Release camera and close windows
 cap.release()
