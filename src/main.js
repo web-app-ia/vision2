@@ -207,7 +207,7 @@ function setupAutoUpdater() {
     autoUpdater.setFeedURL({
         provider: 'github',
         owner: 'web-app-ia',
-        repo: 'vision',
+        repo: 'vision2',
         private: false
     });
 
@@ -345,7 +345,7 @@ function createMenu() {
                 {
                     label: 'GitHub',
                     click: () => {
-                        shell.openExternal('https://github.com/web-app-ia/vision');
+                        shell.openExternal('https://github.com/web-app-ia/vision2');
                     }
                 }
             ]
