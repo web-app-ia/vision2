@@ -1,0 +1,249 @@
+{
+    "Presentation-Controller": {
+        "name": "Contrôleur de Présentation",
+        "categories": ["gestures", "tracking"],
+        "description": "Contrôlez vos présentations (PowerPoint, Google Slides) avec de simples gestes de la main. Changez de diapositive, mettez en surbrillance des points importants et utilisez un pointeur laser virtuel.",
+        "features": [
+            "Navigation entre les diapositives (suivant/précédent)",
+            "Pointeur laser virtuel contrôlé par l'index",
+            "Mode 'zoom' pour agrandir une partie de l'écran",
+            "Compatible avec les principaux logiciels de présentation"
+        ],
+        "requirements": ["MediaPipe", "PyAutoGUI", "OpenCV"],
+        "usage": "Lancez l'application et ouvrez votre présentation en plein écran. Levez la main pour activer le contrôle. Balayez vers la gauche ou la droite pour changer de diapositive."
+    },
+    "Sign-Language-Translator": {
+        "name": "Traducteur de Langue des Signes",
+        "categories": ["gestures"],
+        "description": "Une application éducative qui reconnaît et traduit l'alphabet de la langue des signes américaine (ASL) en texte en temps réel.",
+        "features": [
+            "Reconnaissance de l'alphabet ASL",
+            "Affichage du texte traduit en temps réel",
+            "Mode d'entraînement avec des quiz",
+            "Historique des traductions"
+        ],
+        "requirements": ["TensorFlow", "OpenCV", "MediaPipe"],
+        "usage": "Placez votre main dans le cadre de la caméra. Formez une lettre de l'alphabet ASL et l'application affichera la traduction."
+    },
+    "Virtual-Mouse": {
+        "name": "Souris Virtuelle",
+        "categories": ["gestures", "tracking"],
+        "description": "Contrôlez le curseur de votre ordinateur et effectuez des clics en utilisant les gestes de votre main. Une solution idéale pour les présentations ou pour l'accessibilité.",
+        "features": [
+            "Mouvement du curseur en suivant l'index",
+            "Clic gauche en pinçant l'index et le pouce",
+            "Clic droit en pinçant le majeur et le pouce",
+            "Mode défilement"
+        ],
+        "requirements": ["MediaPipe", "OpenCV", "PyAutoGUI"],
+        "usage": "Levez la main devant la caméra. Bougez votre index pour déplacer le curseur. Pincez les doigts pour cliquer."
+    },
+    "Music-Conductor": {
+        "name": "Chef d'Orchestre Virtuel",
+        "categories": ["gestures", "jeux-et-loisirs"],
+        "description": "Devenez un chef d'orchestre. Contrôlez la lecture de votre musique (Spotify, Apple Music) par des gestes : ajustez le volume, changez de piste, mettez en pause.",
+        "features": [
+            "Contrôle du volume en levant/baissant la main",
+            "Changement de piste par balayage horizontal",
+            "Mise en pause/lecture en joignant les mains",
+            "Visualiseur de musique réactif"
+        ],
+        "requirements": ["MediaPipe", "OpenCV", "pycaw"],
+        "usage": "Lancez votre application musicale, puis cette application. Contrôlez la musique avec les gestes décrits."
+    },
+    "Smart-Home-Control": {
+        "name": "Contrôle Domotique",
+        "categories": ["gestures"],
+        "description": "Intégrez cette application avec vos systèmes de maison intelligente (Philips Hue, etc.). Allumez/éteignez les lumières ou ajustez le thermostat avec des gestes prédéfinis.",
+        "features": [
+            "Intégration avec les API de domotique populaires",
+            "Gestes personnalisables pour différentes actions",
+            "Retour visuel pour confirmer les actions",
+            "Sécurisé et local"
+        ],
+        "requirements": ["MediaPipe", "OpenCV", "Requests"],
+        "usage": "Configurez vos appareils dans les paramètres. Effectuez les gestes définis pour contrôler votre maison."
+    },
+    "Posture-Coach": {
+        "name": "Coach de Posture",
+        "categories": ["tracking"],
+        "description": "Améliorez votre posture au travail. L'application surveille votre position et vous envoie une alerte discrète lorsque vous commencez à vous avachir.",
+        "features": [
+            "Analyse de la posture en temps réel (épaules, cou, dos)",
+            "Alertes visuelles et sonores personnalisables",
+            "Rapports de progression sur votre posture",
+            "Exercices d'étirement recommandés"
+        ],
+        "requirements": ["MediaPipe", "OpenCV"],
+        "usage": "Calibrez votre 'bonne' posture une fois au début. L'application tournera en arrière-plan et vous alertera si nécessaire."
+    },
+    "Yoga-Pose-Analyzer": {
+        "name": "Analyseur de Posture de Yoga",
+        "categories": ["tracking", "jeux-et-loisirs"],
+        "description": "Votre professeur de yoga personnel. Choisissez une posture et l'application vous guidera pour l'atteindre correctement, en superposant un squelette de référence sur votre image.",
+        "features": [
+            "Bibliothèque de postures de yoga",
+            "Analyse des angles des articulations",
+            "Score de précision en temps réel",
+            "Instructions vocales et visuelles"
+        ],
+        "requirements": ["MediaPipe", "OpenCV", "Numpy"],
+        "usage": "Sélectionnez une posture. Suivez le guide visuel pour aligner votre corps. Maintenez la pose pour obtenir votre score."
+    },
+    "Virtual-Fitness-Trainer": {
+        "name": "Entraîneur de Fitness Virtuel",
+        "categories": ["tracking", "jeux-et-loisirs"],
+        "description": "Comptez vos répétitions et vérifiez votre forme pour des exercices comme les pompes, les squats et les fentes. Atteignez vos objectifs de fitness avec un retour instantané.",
+        "features": [
+            "Comptage automatique des répétitions",
+            "Analyse de la forme (ex: profondeur du squat)",
+            "Programmes d'entraînement personnalisables",
+            "Suivi des calories brûlées (estimation)"
+        ],
+        "requirements": ["MediaPipe", "OpenCV", "Numpy"],
+        "usage": "Choisissez un exercice. Placez-vous devant la caméra et commencez votre série. L'application comptera pour vous."
+    },
+    "Dance-Tutor": {
+        "name": "Professeur de Danse",
+        "categories": ["tracking", "jeux-et-loisirs"],
+        "description": "Apprenez des mouvements de danse populaires. Suivez un avatar à l'écran et obtenez un score basé sur la précision de vos mouvements.",
+        "features": [
+            "Catalogue de mouvements de danse (Hip-hop, Salsa...)",
+            "Mode 'battle' contre l'IA ou un ami",
+            "Ralentissement de la vitesse pour l'apprentissage",
+            "Enregistrement et partage de vos performances"
+        ],
+        "requirements": ["MediaPipe", "OpenCV", "PyGame"],
+        "usage": "Choisissez une danse. Imitez les mouvements de l'avatar à l'écran pour marquer des points."
+    },
+    "Fall-Detection-System": {
+        "name": "Détecteur de Chutes",
+        "categories": ["tracking"],
+        "description": "Une application de sécurité pour les personnes âgées ou vulnérables. Détecte une chute brutale et peut être configurée pour envoyer une alerte à un contact d'urgence.",
+        "features": [
+            "Détection de chute basée sur la vitesse et la posture",
+            "Temporisateur pour annuler les fausses alertes",
+            "Envoi d'alertes par email ou SMS (via API)",
+            "Journal d'événements"
+        ],
+        "requirements": ["OpenCV", "Numpy"],
+        "usage": "Laissez l'application tourner en arrière-plan pour surveiller une personne. Une calibration initiale est nécessaire."
+    },
+    "Focus-Mode-Enforcer": {
+        "name": "Mode Concentration",
+        "categories": ["detection"],
+        "description": "Une application de productivité qui vous aide à rester concentré. Elle détecte si votre visage est face à l'écran et peut mettre en pause une vidéo ou une musique si vous regardez ailleurs.",
+        "features": [
+            "Détection de la direction du regard",
+            "Intégration avec les lecteurs multimédias",
+            "Minuteur de session de travail (Pomodoro)",
+            "Rapports sur le temps de concentration"
+        ],
+        "requirements": ["OpenCV", "MediaPipe"],
+        "usage": "Démarrez une session de travail. L'application s'assurera que vous restez concentré sur votre tâche."
+    },
+    "Driver-Drowsiness-Detection": {
+        "name": "Détecteur de Somnolence au Volant",
+        "categories": ["detection"],
+        "description": "Sécurité routière améliorée. L'application surveille les signes de somnolence (bâillements, fermeture des yeux) et déclenche une alarme sonore pour réveiller le conducteur.",
+        "features": [
+            "Analyse du ratio d'ouverture des yeux (EAR)",
+            "Détection des bâillements",
+            "Alarme forte et personnalisable",
+            "Sensibilité réglable"
+        ],
+        "requirements": ["OpenCV", "Dlib", "Scipy"],
+        "usage": "Placez le téléphone sur le tableau de bord, face au conducteur. Activez la surveillance avant de conduire."
+    },
+    "Virtual-Try-On": {
+        "name": "Essayage Virtuel",
+        "categories": ["detection", "realite-augmentee"],
+        "description": "Essayez des accessoires comme des lunettes, des chapeaux ou des masques en réalité augmentée. Idéal pour le shopping en ligne ou pour le plaisir.",
+        "features": [
+            "Détection précise des points du visage",
+            "Catalogue d'objets 3D à essayer",
+            "Ajustement réaliste à la taille et à la position de la tête",
+            "Prise de photos pour partager votre look"
+        ],
+        "requirements": ["MediaPipe", "OpenCV", "Three.js (pour le rendu)"],
+        "usage": "Choisissez un article dans le catalogue et il apparaîtra sur votre visage en temps réel."
+    },
+    "Audience-Engagement-Monitor": {
+        "name": "Analyse de l'Engagement du Public",
+        "categories": ["detection"],
+        "description": "Pour les orateurs et les enseignants. L'application analyse les expressions faciales d'un public (via la caméra) pour donner une estimation de leur niveau d'engagement ou de confusion.",
+        "features": [
+            "Analyse des émotions de groupe",
+            "Graphique d'engagement en temps réel",
+            "Identification des moments clés (pics d'intérêt, confusion)",
+            "Rapport post-présentation"
+        ],
+        "requirements": ["OpenCV", "DeepFace"],
+        "usage": "Placez la caméra face au public pendant votre présentation. Consultez les analyses en direct ou après l'événement."
+    },
+    "Fruit-Slicer": {
+        "name": "Fruit Slicer",
+        "categories": ["jeux-et-loisirs", "gestures"],
+        "description": "Un clone du célèbre jeu Fruit Ninja. Utilisez votre main comme une lame pour trancher les fruits qui apparaissent à l'écran, mais attention aux bombes !",
+        "features": [
+            "Suivi de la main pour simuler le tranchage",
+            "Plusieurs types de fruits et de bombes",
+            "Système de score et de combos",
+            "Différents modes de jeu (Classique, Arcade)"
+        ],
+        "requirements": ["PyGame", "OpenCV", "MediaPipe"],
+        "usage": "Lancez le jeu. Agitez votre main devant la caméra pour trancher les fruits et obtenir le meilleur score."
+    },
+    "Air-Painter": {
+        "name": "Peinture Aérienne",
+        "categories": ["jeux-et-loisirs", "gestures", "realite-augmentee"],
+        "description": "Utilisez votre doigt comme un pinceau pour dessiner dans les airs. Une application créative et amusante pour tous les âges.",
+        "features": [
+            "Dessin en 3D dans l'espace de la caméra",
+            "Palette de couleurs et tailles de pinceau variables",
+            "Possibilité de sauvegarder vos créations (photo/vidéo)",
+            "Effets spéciaux (néon, arc-en-ciel)"
+        ],
+        "requirements": ["OpenCV", "MediaPipe", "Numpy"],
+        "usage": "Pincez l'index et le pouce pour commencer à dessiner. Levez deux doigts pour changer de couleur."
+    },
+    "Pose-Invaders": {
+        "name": "Pose Invaders",
+        "categories": ["jeux-et-loisirs", "tracking"],
+        "description": "Un jeu de fitness inspiré de Space Invaders. Adoptez différentes postures corporelles pour déplacer votre vaisseau et tirer sur les envahisseurs extraterrestres.",
+        "features": [
+            "Contrôle du vaisseau par la posture du corps",
+            "Tir activé par des squats ou des fentes",
+            "Vagues d'ennemis de plus en plus difficiles",
+            "Brûlez des calories en jouant"
+        ],
+        "requirements": ["PyGame", "OpenCV", "MediaPipe"],
+        "usage": "Tenez-vous droit pour positionner le vaisseau. Penchez-vous pour vous déplacer. Faites un squat pour tirer."
+    },
+    "Face-Controlled-Maze": {
+        "name": "Labyrinthe Facial",
+        "categories": ["jeux-et-loisirs", "detection"],
+        "description": "Guidez une bille à travers un labyrinthe en inclinant la tête. Un jeu d'adresse qui demande concentration et contrôle.",
+        "features": [
+            "Contrôle par l'inclinaison de la tête",
+            "Générateur de labyrinthes aléatoires",
+            "Niveaux de difficulté progressifs",
+            "Chronomètre et tableau des scores"
+        ],
+        "requirements": ["PyGame", "OpenCV", "MediaPipe"],
+        "usage": "Inclinez votre tête vers la gauche/droite/haut/bas pour diriger la bille vers la sortie."
+    },
+    "AR-Object-Hunt": {
+        "name": "Chasse aux Objets en RA",
+        "categories": ["jeux-et-loisirs", "realite-augmentee"],
+        "description": "Une chasse au trésor moderne. L'application vous donne le nom d'un objet du quotidien (ex: 'tasse', 'livre') et vous devez le trouver et le montrer à la caméra.",
+        "features": [
+            "Reconnaissance d'objets en temps réel (modèle YOLO)",
+            "Listes d'objets thématiques",
+            "Mode multijoueur (le premier qui trouve gagne)",
+            "Parfait pour les enfants et les fêtes"
+        ],
+        "requirements": ["OpenCV", "PyTorch", "YOLOv5"],
+        "usage": "Lisez le nom de l'objet à trouver. Parcourez votre maison et cadrez l'objet avec la caméra pour marquer le point."
+    }
+}

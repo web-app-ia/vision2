@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Vision Applications</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 SMART BOARD IA</h1>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Catégories</h2>
+            <div id="categories-list" class="categories-list">
+                <!-- Les catégories seront chargées dynamiquement -->
+            </div>
+            
+            <div class="running-apps">
+                <h3>Applications en cours</h3>
+                <div id="running-apps-list" class="running-list">
+                    <p class="no-apps">Aucune application en cours</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Rechercher une application...">
+                <button id="refresh-btn">Actualiser</button>
+            </div>
+
+            <div id="apps-grid" class="apps-grid">
+                <!-- Les applications seront chargées dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Développé par SELI IA MASTER AGENCY (+226 56888879)</p>
+    </div>
+
+    <!-- Modal pour les détails d'une application -->
+    <div id="app-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="tutorial.js"></script>
+    <script src="renderer.js"></script>
+</body>
+</html>

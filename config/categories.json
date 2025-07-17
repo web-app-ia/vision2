@@ -1,0 +1,52 @@
+{
+  "categories": {
+    "gestures": {
+      "name": "👋 Suivis des mains",
+      "description": "Applications de détection et suivi des gestes de la main",
+      "icon": "👋",
+      "color": "#28a745"
+    },
+    "tracking": {
+      "name": "🎯 Suivis corporel",
+      "description": "Applications de suivi des mouvements corporels et posturaux",
+      "icon": "🎯",
+      "color": "#17a2b8"
+    },
+    "detection": {
+      "name": "🔍 Détections faciales",
+      "description": "Applications de détection et analyse faciale",
+      "icon": "🔍",
+      "color": "#ffc107"
+    },
+    "recognition": {
+      "name": "🧠 Reconnaissance",
+      "description": "Applications de reconnaissance d'objets et de patterns",
+      "icon": "🧠",
+      "color": "#6f42c1"
+    },
+    "effects": {
+      "name": "✨ Effets",
+      "description": "Applications d'effets visuels et filtres",
+      "icon": "✨",
+      "color": "#e83e8c"
+    },
+    "analysis": {
+      "name": "📊 Analyse",
+      "description": "Applications d'analyse et de mesure",
+      "icon": "📊",
+      "color": "#fd7e14"
+    },
+    "realite-augmentee": {
+      "name": "🥽 Réalité augmentée",
+      "description": "Applications de réalité augmentée et mixte",
+      "icon": "🥽",
+      "color": "#20c997"
+    },
+    "jeux-et-loisirs": {
+        "name": "🎮 Jeux et loisirs",
+        "description": "Applications de jeux et de divertissement",
+        "icon": "🎮",
+        "color": "#17a2b8"
+    }
+}
+}

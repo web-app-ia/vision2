@@ -1,0 +1,50 @@
+{
+  "name": "computer-vision-app",
+  "version": "1.0.0",
+  "description": "Répertoire d'applications Python de Computer Vision",
+  "main": "src/main.js",
+  "homepage": "https://github.com/web-app-ia/vision",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-app-ia/vision.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac",
+    "build-linux": "electron-builder --linux",
+    "publish": "electron-builder --publish=always",
+    "pack": "electron-builder --dir",
+    "dist": "npm run build"
+  },
+  "keywords": ["electron", "computer vision", "python", "opencv", "mediapipe", "games"],
+  "author": "Developer",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "electron-store": "^8.0.0",
+    "electron-updater": "^6.1.0"
+  },
+  "build": {
+    "appId": "com.cvapp.desktop",
+    "productName": "Computer Vision App",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "python-apps/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    }
+  }
+}

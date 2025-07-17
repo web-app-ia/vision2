@@ -1,0 +1,581 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #1e3c72;
+    backdrop-filter: blur(10px);
+}
+
+.header h1 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+}
+
+.header p {
+    color: #666;
+    font-size: 1.1em;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    padding: 20px;
+}
+
+.sidebar {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    color: #1e3c72;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1e3c72;
+}
+
+.sidebar h3 {
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.categories-list {
+    margin-bottom: 20px;
+}
+
+.category-item {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.category-item:hover {
+    background: #fff3cd;
+    border-left-color: #ffc107;
+}
+
+.category-item.active {
+    background: #1e3c72;
+    color: white;
+    border-left-color: #2a5298;
+}
+
+.category-item .category-name {
+    font-weight: 500;
+    display: block;
+}
+
+.category-item .category-count {
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+.running-apps {
+    border-top: 1px solid #e9ecef;
+    padding-top: 20px;
+}
+
+.running-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.running-app {
+    background: #fff3cd;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.running-app .app-name {
+    font-weight: 500;
+    color: #856404;
+}
+
+.stop-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background 0.3s ease;
+}
+
+.stop-btn:hover {
+    background: #c82333;
+}
+
+.no-apps {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-bar {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #1e3c72;
+    box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+.search-bar button {
+    background: #1e3c72;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.search-bar button:hover {
+    background: #2a5298;
+}
+
+.apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    flex: 1;
+}
+
+.app-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid #1e3c72;
+}
+
+.app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.app-name {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.app-category {
+    background: #e9ecef;
+    color: #495057;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.app-description {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.app-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-primary {
+    background: #ffc107;
+    color: #212529;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background: #e0a800;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.btn-info {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #5a6268;
+}
+
+.app-status {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.status-ready {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-running {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.footer {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #e9ecef;
+    backdrop-filter: blur(10px);
+}
+
+.footer p {
+    color: #666;
+    margin: 0;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.app-card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        order: 2;
+    }
+    
+    .main-content {
+        order: 1;
+    }
+    
+    .apps-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Loading animation */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #1e3c72;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Styles pour la section détails déroulante */
+.app-details-toggle {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-details-toggle:hover {
+    background: #e9ecef;
+    border-color: #1e3c72;
+}
+
+.app-details-toggle .toggle-text {
+    font-weight: 500;
+    color: #495057;
+}
+
+.app-details-toggle .toggle-icon {
+    transition: transform 0.3s ease;
+    color: #1e3c72;
+}
+
+.app-details-toggle.active .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.app-details-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+}
+
+.app-details-content.active {
+    max-height: 500px;
+    padding: 15px;
+}
+
+.app-details-section {
+    margin-bottom: 15px;
+}
+
+.app-details-section h4 {
+    color: #1e3c72;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.app-features-list {
+    list-style: none;
+    padding: 0;
+}
+
+.app-features-list li {
+    padding: 4px 0;
+    color: #495057;
+    position: relative;
+    padding-left: 20px;
+}
+
+.app-features-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.app-requirements-list {
+    list-style: none;
+    padding: 0;
+}
+
+.app-requirements-list li {
+    padding: 4px 0;
+    color: #495057;
+    position: relative;
+    padding-left: 20px;
+}
+
+.app-requirements-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #1e3c72;
+    font-weight: bold;
+}
+
+.app-usage-text {
+    color: #495057;
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 4px;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* Mise à jour des couleurs pour le thème bleu foncé */
+.sidebar h2 {
+    color: #1e3c72;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1e3c72;
+}
+
+.search-bar input:focus {
+    border-color: #1e3c72;
+    box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+.search-bar button {
+    background: #1e3c72;
+}
+
+.search-bar button:hover {
+    background: #2a5298;
+}
+
+.category-item:hover {
+    background: #e9ecef;
+    border-left-color: #1e3c72;
+}
+
+.category-item.active {
+    background: #1e3c72;
+    color: white;
+    border-left-color: #2a5298;
+}
+
+.app-card {
+    border-left: 4px solid #1e3c72;
+}
+
+.btn-details {
+    background: #1e3c72;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-details:hover {
+    background: #2a5298;
+}

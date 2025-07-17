@@ -1,0 +1,1 @@
+# Placeholder for Entraîneur de Fitness Virtuel
