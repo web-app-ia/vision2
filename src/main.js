@@ -28,7 +28,10 @@ function createWindow() {
     .then(() => {
         console.log('index.html loaded successfully');
         mainWindow.show();
-        mainWindow.webContents.openDevTools();
+        // Only open dev tools in development
+        if (process.env.NODE_ENV === 'development') {
+            mainWindow.webContents.openDevTools();
+        }
     })
     .catch(err => {
         console.error('Failed to load index.html:', err);
