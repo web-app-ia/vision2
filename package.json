@@ -1,6 +1,6 @@
 {
   "name": "computer-vision-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Répertoire d'applications Python de Computer Vision",
   "main": "src/main.js",
   "homepage": "https://github.com/web-app-ia/vision2",
