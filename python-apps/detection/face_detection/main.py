@@ -207,6 +207,14 @@ class FaceDetectionApp:
         print("  - 'r' pour réinitialiser les compteurs")
         print("  - '+' pour augmenter la sensibilité")
         print("  - '-' pour diminuer la sensibilité")
+        print("  - 'f' pour basculer en mode plein écran")
+        
+        # Créer la fenêtre et la configurer pour le plein écran
+        window_name = 'Detection de Visage - Computer Vision App'
+        cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        
+        fullscreen_mode = True
         
         try:
             while True:
@@ -264,6 +272,15 @@ class FaceDetectionApp:
                 elif key == ord('-'):
                     self.min_neighbors = min(10, self.min_neighbors + 1)
                     print(f"Sensibilité diminuée (min_neighbors: {self.min_neighbors})")
+                elif key == ord('f'):
+                    # Basculer le mode plein écran
+                    fullscreen_mode = not fullscreen_mode
+                    if fullscreen_mode:
+                        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+                        print("Mode plein écran activé")
+                    else:
+                        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+                        print("Mode fenêtre normal activé")
                 
         except KeyboardInterrupt:
             print("Arrêt demandé par Ctrl+C")

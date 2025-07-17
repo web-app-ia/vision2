@@ -8,6 +8,25 @@ Virtual Piano – Windows build
 """
 
 import cv2
+
+# Configuration pour le mode plein écran
+def setup_fullscreen_window(window_name):
+    """Configure une fenêtre pour le mode plein écran"""
+    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    return True
+
+def toggle_fullscreen(window_name, is_fullscreen):
+    """Bascule entre mode plein écran et fenêtre normale"""
+    if is_fullscreen:
+        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+        print("Mode fenêtre normale activé")
+        return False
+    else:
+        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        print("Mode plein écran activé")
+        return True
+
 import mediapipe as mp
 import numpy as np
 import pygame
@@ -101,6 +120,13 @@ listener.start()
 
 # ---------- Main loop ----------
 print("Entering main loop...")
+        # Configuration de la fenêtre plein écran
+        window_name = "Virtual Piano"
+        setup_fullscreen_window(window_name)
+        fullscreen_mode = True
+        print("Mode plein écran activé - Appuyez sur 'f' pour basculer")
+        
+        
 while True:
     frame = draw_keyboard(blank_img.copy())
 

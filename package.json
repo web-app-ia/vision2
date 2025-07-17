@@ -1,6 +1,6 @@
 {
   "name": "computer-vision-app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Répertoire d'applications Python de Computer Vision",
   "main": "src/main.js",
   "homepage": "https://github.com/web-app-ia/vision2",
@@ -40,6 +40,7 @@
   "build": {
     "appId": "com.cvapp.desktop",
     "productName": "Computer Vision App",
+    "asar": false,
     "directories": {
       "output": "dist"
     },
@@ -52,7 +53,7 @@
     ],
     "win": {
       "target": [{
-        "target": "portable",
+        "target": "nsis",
         "arch": ["x64"]
       }],
       "icon": "assets/icon.ico",

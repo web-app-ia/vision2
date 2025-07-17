@@ -1,4 +1,23 @@
 import cv2
+
+# Configuration pour le mode plein écran
+def setup_fullscreen_window(window_name):
+    """Configure une fenêtre pour le mode plein écran"""
+    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    return True
+
+def toggle_fullscreen(window_name, is_fullscreen):
+    """Bascule entre mode plein écran et fenêtre normale"""
+    if is_fullscreen:
+        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+        print("Mode fenêtre normale activé")
+        return False
+    else:
+        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        print("Mode plein écran activé")
+        return True
+
 import mediapipe as mp
 import numpy as np
 
@@ -56,6 +75,13 @@ class AirPainter:
         print("- Appuyez sur 'c' pour effacer")
         print("- Appuyez sur 'q' pour quitter")
         print("\nDémarrage...")
+        # Configuration de la fenêtre plein écran
+        window_name = "Air Painter"
+        setup_fullscreen_window(window_name)
+        fullscreen_mode = True
+        print("Mode plein écran activé - Appuyez sur 'f' pour basculer")
+        
+        
         
         while True:
             ret, frame = cap.read()
@@ -120,8 +146,11 @@ class AirPainter:
             cv2.imshow('Air Painter', combined)
             
             key = cv2.waitKey(1) & 0xFF
+            
             if key == ord('q'):
                 break
+            elif key == ord('f'):
+                fullscreen_mode = toggle_fullscreen(window_name, fullscreen_mode)
             elif key == ord('c'):
                 # Effacer le canvas
                 self.canvas = np.zeros((height, width, 3), np.uint8)

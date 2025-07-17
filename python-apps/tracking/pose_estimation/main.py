@@ -1,4 +1,23 @@
 import cv2
+
+# Configuration pour le mode plein écran
+def setup_fullscreen_window(window_name):
+    """Configure une fenêtre pour le mode plein écran"""
+    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+    cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    return True
+
+def toggle_fullscreen(window_name, is_fullscreen):
+    """Bascule entre mode plein écran et fenêtre normale"""
+    if is_fullscreen:
+        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+        print("Mode fenêtre normale activé")
+        return False
+    else:
+        cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        print("Mode plein écran activé")
+        return True
+
 import mediapipe as mp
 import time
 import numpy as np
@@ -64,6 +83,13 @@ class PoseEstimationApp:
         print("Appuyez sur 'q' pour quitter")
 
         try:
+        # Configuration de la fenêtre plein écran
+        window_name = "Suivi de Pose Corporelle - Computer Vision App"
+        setup_fullscreen_window(window_name)
+        fullscreen_mode = True
+        print("Mode plein écran activé - Appuyez sur 'f' pour basculer")
+        
+        
             while True:
                 ret, frame = cap.read()
                 if not ret:
@@ -93,6 +119,8 @@ class PoseEstimationApp:
                 # Gestion des touches
                 key = cv2.waitKey(1) & 0xFF
 
+                elif key == ord(\'f\'):
+                    fullscreen_mode = toggle_fullscreen(window_name, fullscreen_mode)
                 if key == ord('q'):  # 'q' pour quitter
                     print("Arrêt demandé par l'utilisateur")
                     break

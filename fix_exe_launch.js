@@ -2,9 +2,7 @@ const { app, BrowserWindow, ipcMain, shell, dialog, Menu } = require('electron')
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const fs = require('fs');
-const os = require('os');
 const { spawn } = require('child_process');
-const https = require('https');
 
 let mainWindow;
 let runningProcesses = new Map();
@@ -77,7 +75,7 @@ app.on('activate', () => {
 // Fonction pour obtenir le chemin des ressources selon l'environnement
 function getResourcePath() {
     if (app.isPackaged) {
-        // Dans l'exécutable, avec asar:false, les ressources sont dans resources/app
+        // Dans l'exécutable, utiliser process.resourcesPath
         return path.join(process.resourcesPath, 'app');
     } else {
         // En développement, utiliser __dirname
@@ -85,45 +83,11 @@ function getResourcePath() {
     }
 }
 
-// Fonction pour copier récursivement un dossier
-function copyFolderRecursive(src, dest) {
-    if (!fs.existsSync(dest)) {
-        fs.mkdirSync(dest, { recursive: true });
-    }
-    
-    const files = fs.readdirSync(src);
-    for (const file of files) {
-        const srcPath = path.join(src, file);
-        const destPath = path.join(dest, file);
-        
-        if (fs.statSync(srcPath).isDirectory()) {
-            copyFolderRecursive(srcPath, destPath);
-        } else {
-            fs.copyFileSync(srcPath, destPath);
-        }
-    }
-}
-
 // Fonction pour créer un fichier batch temporaire
 function createTempBatchFile(appInfo) {
-    const tempDir = path.join(os.tmpdir(), 'computer-vision-app');
+    const tempDir = path.join(require('os').tmpdir(), 'computer-vision-app');
     if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir, { recursive: true });
-    }
-    
-    // Créer un dossier temporaire pour cette application
-    const appTempDir = path.join(tempDir, appInfo.name);
-    if (fs.existsSync(appTempDir)) {
-        // Supprimer le dossier existant
-        fs.rmSync(appTempDir, { recursive: true, force: true });
-    }
-    
-    // Copier tous les fichiers et dossiers de l'application
-    try {
-        copyFolderRecursive(appInfo.path, appTempDir);
-        console.log(`Files copied to temp dir: ${appTempDir}`);
-    } catch (error) {
-        console.error('Error copying files:', error);
     }
     
     const tempBatchPath = path.join(tempDir, `${appInfo.name}-launch.bat`);
@@ -133,8 +97,8 @@ echo   ${appInfo.name}
 echo ====================================
 echo.
 
-REM Changer vers le répertoire temporaire de l'application
-cd /d "${appTempDir}"
+REM Changer vers le répertoire de l'application
+cd /d "${appInfo.path}"
 
 REM Vérifier si Python est installé
 python --version >nul 2>&1
@@ -154,7 +118,7 @@ echo.
 
 REM Lancer l'application Python
 echo Démarrage de ${appInfo.name}...
-python main.py
+python "${appInfo.mainPy}"
 
 echo Application terminée
 pause
@@ -172,20 +136,11 @@ ipcMain.handle('get-python-apps', () => {
     const apps = [];
     let categories = {};
 
-    console.log('DEBUG: Resource path:', resourcePath);
-    console.log('DEBUG: Apps directory:', appsDir);
-    console.log('DEBUG: Categories path:', categoriesPath);
-    console.log('DEBUG: Apps directory exists:', fs.existsSync(appsDir));
-    console.log('DEBUG: Categories file exists:', fs.existsSync(categoriesPath));
-
     try {
         // Charger les catégories depuis le fichier JSON
         if (fs.existsSync(categoriesPath)) {
             const categoriesFile = fs.readFileSync(categoriesPath);
             categories = JSON.parse(categoriesFile).categories;
-            console.log('DEBUG: Categories loaded:', Object.keys(categories));
-        } else {
-            console.log('DEBUG: Categories file not found!');
         }
 
         // Scanner les applications et les associer aux catégories
@@ -239,9 +194,13 @@ ipcMain.handle('launch-python-app', async (event, appInfo) => {
             // Dans l'exécutable, créer un batch temporaire et lancer Python directement
             const tempBatchPath = createTempBatchFile(appInfo);
             
-            // Lancer directement le fichier batch
-            process = spawn('cmd', ['/c', tempBatchPath], {
-                cwd: path.dirname(tempBatchPath),
+            // Lancer avec PowerShell pour avoir accès aux privilèges
+            process = spawn('powershell', [
+                '-ExecutionPolicy', 'Bypass',
+                '-Command', 
+                `Start-Process -FilePath "cmd" -ArgumentList "/c","${tempBatchPath}" -Verb RunAs`
+            ], {
+                cwd: appInfo.path,
                 stdio: 'ignore',
                 detached: true,
                 windowsHide: false
@@ -410,70 +369,9 @@ function setupAutoUpdater() {
     });
 }
 
-// Fonction pour vérifier les mises à jour via GitHub API
-function checkGitHubUpdates() {
-    return new Promise((resolve, reject) => {
-        const options = {
-            hostname: 'api.github.com',
-            path: '/repos/web-app-ia/vision2/releases/latest',
-            method: 'GET',
-            headers: {
-                'User-Agent': 'computer-vision-app'
-            }
-        };
-        
-        const req = https.request(options, (res) => {
-            let data = '';
-            res.on('data', chunk => data += chunk);
-            res.on('end', () => {
-                try {
-                    const release = JSON.parse(data);
-                    resolve({
-                        version: release.tag_name.replace('v', ''),
-                        downloadUrl: release.assets[0]?.browser_download_url,
-                        releaseNotes: release.body
-                    });
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        });
-        
-        req.on('error', reject);
-        req.end();
-    });
-}
-
-// Fonction pour télécharger une mise à jour
-function downloadUpdate(url, destination) {
-    return new Promise((resolve, reject) => {
-        const file = fs.createWriteStream(destination);
-        
-        https.get(url, (response) => {
-            response.pipe(file);
-            
-            file.on('finish', () => {
-                file.close();
-                resolve(destination);
-            });
-            
-            file.on('error', (error) => {
-                fs.unlink(destination, () => {});
-                reject(error);
-            });
-        }).on('error', reject);
-    });
-}
-
 function checkForUpdates() {
     if (process.env.NODE_ENV !== 'development') {
-        if (app.isPackaged) {
-            // Pour les versions empaquetées, utiliser l'auto-updater
-            autoUpdater.checkForUpdatesAndNotify();
-        } else {
-            // Pour les versions de développement, vérifier manuellement
-            console.log('Mode développement - vérification des mises à jour désactivée');
-        }
+        autoUpdater.checkForUpdatesAndNotify();
     }
 }
 
@@ -541,51 +439,6 @@ ipcMain.handle('check-for-updates', () => {
     checkForUpdates();
 });
 
-ipcMain.handle('check-github-updates', async () => {
-    try {
-        const updateInfo = await checkGitHubUpdates();
-        const currentVersion = app.getVersion();
-        
-        if (updateInfo.version !== currentVersion) {
-            return {
-                updateAvailable: true,
-                currentVersion,
-                newVersion: updateInfo.version,
-                downloadUrl: updateInfo.downloadUrl,
-                releaseNotes: updateInfo.releaseNotes
-            };
-        }
-        
-        return { updateAvailable: false, currentVersion };
-    } catch (error) {
-        console.error('Error checking GitHub updates:', error);
-        return { error: error.message };
-    }
-});
-
-ipcMain.handle('download-github-update', async (event, downloadUrl) => {
-    try {
-        const tempDir = path.join(os.tmpdir(), 'computer-vision-app-update');
-        if (!fs.existsSync(tempDir)) {
-            fs.mkdirSync(tempDir, { recursive: true });
-        }
-        
-        const fileName = path.basename(downloadUrl);
-        const downloadPath = path.join(tempDir, fileName);
-        
-        await downloadUpdate(downloadUrl, downloadPath);
-        
-        return { success: true, filePath: downloadPath };
-    } catch (error) {
-        console.error('Error downloading update:', error);
-        return { success: false, error: error.message };
-    }
-});
-
 ipcMain.handle('install-update', () => {
     autoUpdater.quitAndInstall();
-});
-
-ipcMain.handle('open-downloaded-update', (event, filePath) => {
-    shell.openPath(filePath);
 });
