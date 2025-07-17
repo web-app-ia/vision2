@@ -19,7 +19,14 @@
     "pack": "electron-builder --dir",
     "dist": "npm run build"
   },
-  "keywords": ["electron", "computer vision", "python", "opencv", "mediapipe", "games"],
+  "keywords": [
+    "electron",
+    "computer vision",
+    "python",
+    "opencv",
+    "mediapipe",
+    "games"
+  ],
   "author": "Developer",
   "license": "MIT",
   "devDependencies": {
@@ -28,7 +35,7 @@
   },
   "dependencies": {
     "electron-store": "^8.0.0",
-    "electron-updater": "^6.1.0"
+    "electron-updater": "^6.6.2"
   },
   "build": {
     "appId": "com.cvapp.desktop",
@@ -43,8 +50,21 @@
       "node_modules/**/*"
     ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/icon.ico"
+      "target": [{
+        "target": "portable",
+        "arch": ["x64"]
+      }],
+      "icon": "assets/icon.ico",
+      "publish": {
+        "provider": "github",
+        "owner": "web-app-ia",
+        "repo": "vision"
+      },
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   }
 }

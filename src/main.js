@@ -1,7 +1,8 @@
-const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, dialog, Menu } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const fs = require('fs');
-const { spawn, exec } = require('child_process');
+const { spawn } = require('child_process');
 
 let mainWindow;
 let runningProcesses = new Map();
@@ -10,6 +11,8 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
+        x: 100,
+        y: 100,
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
@@ -19,17 +22,21 @@ function createWindow() {
         title: 'Computer Vision Applications',
         show: false
     });
+    console.log('BrowserWindow created');
 
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
-    mainWindow.once('ready-to-show', () => {
+    mainWindow.loadFile(path.join(__dirname, 'index.html'))
+    .then(() => {
+        console.log('index.html loaded successfully');
         mainWindow.show();
+        mainWindow.webContents.openDevTools();
+    })
+    .catch(err => {
+        console.error('Failed to load index.html:', err);
     });
 
-    // Ouvrir DevTools en mode développement
-    if (process.env.NODE_ENV === 'development') {
-        mainWindow.webContents.openDevTools();
-    }
+    mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+        console.error('Failed to load content:', errorCode, errorDescription);
+    });
 
     mainWindow.on('closed', () => {
         // Arrêter tous les processus Python en cours
@@ -43,7 +50,12 @@ function createWindow() {
     });
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+    createWindow();
+    setupAutoUpdater();
+    checkForUpdates();
+    createMenu();
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -187,4 +199,168 @@ ipcMain.handle('open-external', async (event, url) => {
 ipcMain.handle('show-message', async (event, options) => {
     const result = await dialog.showMessageBox(mainWindow, options);
     return result;
+});
+
+// Auto-updater functions
+function setupAutoUpdater() {
+    // Configuration de l'auto-updater
+    autoUpdater.setFeedURL({
+        provider: 'github',
+        owner: 'web-app-ia',
+        repo: 'vision',
+        private: false
+    });
+
+    // Événements de l'auto-updater
+    autoUpdater.on('checking-for-update', () => {
+        console.log('Recherche de mise à jour...');
+        if (mainWindow) {
+            mainWindow.webContents.send('update-status', {
+                type: 'checking',
+                message: 'Recherche de mise à jour...'
+            });
+        }
+    });
+
+    autoUpdater.on('update-available', (info) => {
+        console.log('Mise à jour disponible:', info.version);
+        if (mainWindow) {
+            mainWindow.webContents.send('update-status', {
+                type: 'available',
+                message: `Mise à jour disponible: ${info.version}`,
+                version: info.version
+            });
+        }
+    });
+
+    autoUpdater.on('update-not-available', (info) => {
+        console.log('Aucune mise à jour disponible');
+        if (mainWindow) {
+            mainWindow.webContents.send('update-status', {
+                type: 'not-available',
+                message: 'Application à jour'
+            });
+        }
+    });
+
+    autoUpdater.on('error', (err) => {
+        console.error('Erreur de mise à jour:', err);
+        if (mainWindow) {
+            mainWindow.webContents.send('update-status', {
+                type: 'error',
+                message: 'Erreur lors de la vérification des mises à jour'
+            });
+        }
+    });
+
+    autoUpdater.on('download-progress', (progressObj) => {
+        let log_message = "Téléchargement: " + progressObj.percent + '%';
+        log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+        console.log(log_message);
+        if (mainWindow) {
+            mainWindow.webContents.send('update-status', {
+                type: 'downloading',
+                message: log_message,
+                percent: progressObj.percent
+            });
+        }
+    });
+
+    autoUpdater.on('update-downloaded', (info) => {
+        console.log('Mise à jour téléchargée');
+        if (mainWindow) {
+            mainWindow.webContents.send('update-status', {
+                type: 'downloaded',
+                message: 'Mise à jour prête à installer',
+                version: info.version
+            });
+        }
+        
+        // Demander à l'utilisateur s'il veut redémarrer
+        dialog.showMessageBox(mainWindow, {
+            type: 'info',
+            title: 'Mise à jour prête',
+            message: 'La mise à jour a été téléchargée. Voulez-vous redémarrer maintenant?',
+            buttons: ['Redémarrer', 'Plus tard'],
+            defaultId: 0
+        }).then((result) => {
+            if (result.response === 0) {
+                autoUpdater.quitAndInstall();
+            }
+        });
+    });
+}
+
+function checkForUpdates() {
+    if (process.env.NODE_ENV !== 'development') {
+        autoUpdater.checkForUpdatesAndNotify();
+    }
+}
+
+function createMenu() {
+    const template = [
+        {
+            label: 'Fichier',
+            submenu: [
+                {
+                    label: 'Actualiser',
+                    accelerator: 'CmdOrCtrl+R',
+                    click: () => {
+                        if (mainWindow) {
+                            mainWindow.reload();
+                        }
+                    }
+                },
+                { type: 'separator' },
+                {
+                    label: 'Quitter',
+                    accelerator: process.platform === 'darwin' ? 'Cmd+Q' : 'Ctrl+Q',
+                    click: () => {
+                        app.quit();
+                    }
+                }
+            ]
+        },
+        {
+            label: 'Aide',
+            submenu: [
+                {
+                    label: 'Vérifier les mises à jour',
+                    click: () => {
+                        checkForUpdates();
+                    }
+                },
+                { type: 'separator' },
+                {
+                    label: 'À propos',
+                    click: () => {
+                        dialog.showMessageBox(mainWindow, {
+                            type: 'info',
+                            title: 'À propos',
+                            message: 'Computer Vision App',
+                            detail: `Version: ${app.getVersion()}\n\nUne collection d'applications de vision par ordinateur avec des jeux interactifs.`
+                        });
+                    }
+                },
+                {
+                    label: 'GitHub',
+                    click: () => {
+                        shell.openExternal('https://github.com/web-app-ia/vision');
+                    }
+                }
+            ]
+        }
+    ];
+
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+}
+
+// IPC pour les mises à jour
+ipcMain.handle('check-for-updates', () => {
+    checkForUpdates();
+});
+
+ipcMain.handle('install-update', () => {
+    autoUpdater.quitAndInstall();
 });
