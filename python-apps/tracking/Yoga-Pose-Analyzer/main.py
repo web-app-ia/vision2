@@ -1,1 +1,0 @@
-# Placeholder for Analyseur de Posture de Yoga

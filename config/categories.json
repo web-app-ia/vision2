@@ -47,6 +47,18 @@
         "description": "Applications de jeux et de divertissement",
         "icon": "🎮",
         "color": "#17a2b8"
+    },
+    "sciences": {
+        "name": "🔬 Sciences",
+        "description": "Applications scientifiques et éducatives",
+        "icon": "🔬",
+        "color": "#6610f2"
+    },
+    "musique": {
+        "name": "🎵 Musique",
+        "description": "Applications musicales et audio",
+        "icon": "🎵",
+        "color": "#dc3545"
     }
 }
 }
